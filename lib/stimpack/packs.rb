@@ -13,8 +13,8 @@ module Stimpack
 
       def resolve
         # Gather all the packs under the root directory and create packs.
-        root.children.select(&:directory?).sort!.each do |path|
-          next unless pack = Pack.create(path)
+        root.glob(File.join("**", "package.yml")).sort!.each do |path|
+          next unless pack = Pack.create(path.dirname)
           @packs[pack.name] = pack
         end
         @packs.freeze
